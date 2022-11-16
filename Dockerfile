@@ -1,13 +1,16 @@
-FROM openjdk:8
+FROM eclipse-temurin:11
 MAINTAINER Andre Pereira andrespp@gmail.com
 
 # Set Environment Variables
-ENV PDI_VERSION=7.1 PDI_BUILD=7.1.0.0-12 \
+ENV PDI_VERSION=9.3 PDI_BUILD=9.3.0.0-428 \
 	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data-integration \
 	KETTLE_HOME=/data-integration
 
+# Needed packages/dependencies
+RUN apt-get update && apt-get install -y unzip
+
 # Download PDI
-RUN wget --progress=dot:giga http://downloads.sourceforge.net/project/pentaho/Data%20Integration/${PDI_VERSION}/pdi-ce-${PDI_BUILD}.zip \
+RUN wget --progress=dot:giga https://sourceforge.net/projects/pentaho/files/Pentaho-${PDI_VERSION}/client-tools/pdi-ce-${PDI_BUILD}.zip \
 	&& unzip -q *.zip \
 	&& rm -f *.zip \
 	&& mkdir /jobs
